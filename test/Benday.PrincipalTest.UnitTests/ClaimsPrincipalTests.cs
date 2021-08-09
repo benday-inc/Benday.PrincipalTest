@@ -16,6 +16,18 @@ namespace Benday.PrincipalTest.UnitTests
             Assert.IsNull(actual);
         }
 
+        [TestMethod]
+        public void ClaimsPrincipal_UnauthenticatedIdentity_Name_NullOrEmpty()
+        {
+            var identity = new ClaimsIdentity();
 
+            var principal = new ClaimsPrincipal(identity);
+
+            var actual = principal.Identity;
+
+            Assert.IsNotNull(actual);
+
+            Assert.IsTrue(string.IsNullOrEmpty(actual.Name), "Name should be null or empty.");
+        }
     }
 }
