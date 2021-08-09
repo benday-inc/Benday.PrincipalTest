@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace Benday.PrincipalTest.UnitTests
@@ -20,6 +21,36 @@ namespace Benday.PrincipalTest.UnitTests
         public void ClaimsPrincipal_UnauthenticatedIdentity_Name_NullOrEmpty()
         {
             var identity = new ClaimsIdentity();
+
+            var principal = new ClaimsPrincipal(identity);
+
+            var actual = principal.Identity;
+
+            Assert.IsNotNull(actual);
+
+            Assert.IsTrue(string.IsNullOrEmpty(actual.Name), "Name should be null or empty.");
+        }
+
+        [TestMethod]
+        public void ClaimsPrincipal_AuthenticatedIdentityWithoutName_Name_NullOrEmpty()
+        {
+            var identity = new ClaimsIdentity("test");
+
+            var principal = new ClaimsPrincipal(identity);
+
+            var actual = principal.Identity;
+
+            Assert.IsNotNull(actual);
+
+            Assert.IsTrue(string.IsNullOrEmpty(actual.Name), "Name should be null or empty.");
+        }
+
+        [TestMethod]
+        public void ClaimsPrincipal_AuthenticatedIdentityWithEmptyClaims_Name_NullOrEmpty()
+        {
+            var claims = new List<Claim>();
+
+            var identity = new ClaimsIdentity(claims, "test");
 
             var principal = new ClaimsPrincipal(identity);
 
