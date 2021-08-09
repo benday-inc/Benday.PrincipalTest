@@ -66,7 +66,19 @@ namespace Benday.PrincipalTest.UnitTests
 
             var actual = identity.Name;
 
-            Assert.AreEqual<string>(expected, actual, "Name value was wrong.");
+            Assert.AreEqual<string>(expected, actual, "Name value was wrong.");            
+        }
+
+        [TestMethod]
+        public void ClaimsIdentity_DefaultRoleClaimType_ClaimTypesRole()
+        {
+            var identity = new ClaimsIdentity(authenticationType: "test");
+
+            var expected = ClaimTypes.Role;
+
+            var actual = identity.RoleClaimType;
+
+            Assert.AreEqual<string>(expected, actual, "RoleClaimType was wrong");
         }
     }
 }
