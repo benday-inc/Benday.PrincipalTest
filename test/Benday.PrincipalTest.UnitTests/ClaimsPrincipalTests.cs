@@ -80,6 +80,39 @@ namespace Benday.PrincipalTest.UnitTests
             Assert.AreEqual<string>(expected, actual, "Name value was wrong.");
         }
 
+        [TestMethod]
+        public void ClaimsPrincipal_AuthenticatedIdentityWithEmptyClaims_IsInRole_False()
+        {
+            var testRoleName = "role123";
 
+            var claims = new List<Claim>();
+
+            var identity = new ClaimsIdentity(claims, "test");
+
+            var principal = new ClaimsPrincipal(identity);
+
+            var expected = false;
+            var actual = principal.IsInRole(testRoleName);
+
+            Assert.AreEqual<bool>(expected, actual, "IsInRole return value");
+        }
+
+        [TestMethod]
+        public void ClaimsPrincipal_AuthenticatedIdentityWithClaims_IsInRole_True()
+        {
+            var roleThatShouldExist = "role123";
+            var roleThatShouldNotExist = "roleASDF";
+
+            var claims = new List<Claim>();
+
+            claims.Add(new Claim(ClaimTypes.Role, roleThatShouldExist));
+
+            var identity = new ClaimsIdentity(claims, "test");
+
+            var principal = new ClaimsPrincipal(identity);
+
+            Assert.IsTrue(principal.IsInRole(roleThatShouldExist), "IsInRole should be true");
+            Assert.IsFalse(principal.IsInRole(roleThatShouldNotExist), "IsInRole should be false");
+        }
     }
 }
