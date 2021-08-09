@@ -5,7 +5,7 @@ using System.Security.Claims;
 namespace Benday.PrincipalTest.UnitTests
 {
     [TestClass]
-    public class ClaimsIdentityIsAuthenticatedTests
+    public class ClaimsIdentityTests
     {
         [TestMethod]
         public void ClaimsIdentity_DefaultConstructor_IsAuthenticated_False()
