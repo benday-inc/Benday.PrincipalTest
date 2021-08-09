@@ -114,5 +114,26 @@ namespace Benday.PrincipalTest.UnitTests
             Assert.IsTrue(principal.IsInRole(roleThatShouldExist), "IsInRole should be true");
             Assert.IsFalse(principal.IsInRole(roleThatShouldNotExist), "IsInRole should be false");
         }
+
+        [TestMethod]
+        public void ClaimsPrincipal_AuthenticatedIdentityWithClaimsAndNonDefaultRoleClaimName_IsInRole_True()
+        {
+            var nonDefaultRoleClaimName = "nonDefaultRole";
+
+            var roleThatShouldExist = "role123";
+            var roleThatShouldNotExist = "roleASDF";
+
+            var claims = new List<Claim>();
+
+            claims.Add(new Claim(nonDefaultRoleClaimName, roleThatShouldExist));
+            claims.Add(new Claim(ClaimTypes.Role, roleThatShouldNotExist));
+
+            var identity = new ClaimsIdentity(claims, "test", ClaimTypes.Name, nonDefaultRoleClaimName);
+
+            var principal = new ClaimsPrincipal(identity);
+
+            Assert.IsTrue(principal.IsInRole(roleThatShouldExist), "IsInRole should be true");
+            Assert.IsFalse(principal.IsInRole(roleThatShouldNotExist), "IsInRole should be false");
+        }
     }
 }
