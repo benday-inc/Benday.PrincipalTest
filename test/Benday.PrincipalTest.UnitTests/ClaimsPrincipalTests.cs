@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
@@ -51,7 +52,7 @@ namespace Benday.PrincipalTest.UnitTests
             var claims = new List<Claim>();
 
             var identity = new ClaimsIdentity(claims, "test");
-
+            
             var principal = new ClaimsPrincipal(identity);
 
             var actual = principal.Identity;
@@ -60,5 +61,25 @@ namespace Benday.PrincipalTest.UnitTests
 
             Assert.IsTrue(string.IsNullOrEmpty(actual.Name), "Name should be null or empty.");
         }
+
+        [TestMethod]
+        public void ClaimsPrincipal_AuthenticatedIdentityWithClaims_Name_ValueReadFromClaims()
+        {
+            var claims = new List<Claim>();
+
+            var expected = "bingbong@test.org";
+
+            claims.Add(new Claim(ClaimTypes.Name, expected));
+
+            var identity = new ClaimsIdentity(claims, "test");
+
+            var principal = new ClaimsPrincipal(identity);
+
+            var actual = principal.Identity.Name;
+
+            Assert.AreEqual<string>(expected, actual, "Name value was wrong.");
+        }
+
+
     }
 }
